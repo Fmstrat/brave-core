@@ -1100,6 +1100,12 @@ This file contains all "about" strings.  It is set to NOT be translated, in tran
       <message name="IDS_BRAVE_SYNC_LEAVING_SYNC_CHAIN_TITLE" desc="Text for Brave Sync leaving sync chain (doing reset) title.">
   LEAVING THE SYNC CHAIN...
       </message>
+      <message name="IDS_BRAVE_SYNC_DEFAULT_SERVER_TEXT" desc="Text for Brave Sync default server message.">
+	Use Brave's sync server
+      </message>
+      <message name="IDS_BRAVE_SYNC_CUSTOM_SERVER_TEXT" desc="Text for Brave Sync custom server message.">
+	Enter custom sync server address
+      </message>
       <message name="IDS_BRAVE_SYNC_WORD_COUNT_TEXT" desc="Text for Brave Sync word count message.">
 	Word count: <ph name="WORD_COUNT">%1$d</ph>
       </message>

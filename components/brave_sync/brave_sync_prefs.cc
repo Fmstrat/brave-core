@@ -19,6 +19,8 @@ namespace {
 
 // Stored as bip39 keywords (encrypted)
 const char kSyncV2Seed[] = "brave_sync_v2.seed";
+// Standard string for custom sync server
+const char kSyncCustomServer[] = "";
 // Indicate whether migration has been done from v1 to v2
 const char kSyncV1Migrated[] = "brave_sync_v2.v1_migrated";
 // Indicate all meta info set in V1 has been stripped in
@@ -71,6 +73,7 @@ Prefs::~Prefs() = default;
 // static
 void Prefs::RegisterProfilePrefs(PrefRegistrySimple* registry) {
   registry->RegisterStringPref(kSyncV2Seed, std::string());
+  registry->RegisterStringPref(kSyncCustomServer, std::string());
   registry->RegisterBooleanPref(kSyncV1Migrated, false);
   registry->RegisterBooleanPref(kSyncV1MetaInfoCleared, false);
   registry->RegisterBooleanPref(kSyncV2MigrateNoticeDismissed, false);
@@ -150,6 +153,16 @@ bool Prefs::SetSeed(const std::string& seed) {
   return true;
 }
 
+std::string Prefs::GetCustomServer() const {
+  const std::string custom_server = pref_service_->GetString(kSyncCustomServer);
+  return custom_server;
+}
+
+bool Prefs::SetCustomServer(const std::string& custom_server) {
+  pref_service_->SetString(kSyncCustomServer, custom_server);
+  return true;
+}
+
 bool Prefs::IsSyncV1Migrated() const {
   return pref_service_->GetBoolean(kSyncV1Migrated);
 }
@@ -202,6 +215,7 @@ void Prefs::SetSyncAccountDeletedNoticePending(bool is_pending) {
 
 void Prefs::Clear() {
   pref_service_->ClearPref(kSyncV2Seed);
+  pref_service_->ClearPref(kSyncCustomServer);
   pref_service_->ClearPref(kSyncFailedDecryptSeedNoticeDismissed);
 }
 

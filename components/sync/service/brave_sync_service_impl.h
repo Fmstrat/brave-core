@@ -48,6 +48,9 @@ class BraveSyncServiceImpl : public SyncServiceImpl {
   std::string GetOrCreateSyncCode();
   bool SetSyncCode(const std::string& sync_code);
 
+  std::string GetSyncCustomServer();
+  bool SetSyncCustomServer(const std::string& customServer);
+
   // This should only be called by helper function, brave_sync::ResetSync, or by
   // OnDeviceInfoChange internally
   void OnSelfDeviceInfoDeleted(base::OnceClosure cb);

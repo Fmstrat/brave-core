@@ -77,6 +77,8 @@ import org.chromium.chrome.browser.sync.BraveSyncDevices;
 import org.chromium.chrome.browser.sync.SyncServiceFactory;
 import org.chromium.chrome.browser.sync.settings.BraveManageSyncSettings;
 import org.chromium.components.browser_ui.settings.SettingsLauncher;
+import org.chromium.components.browser_ui.widget.RadioButtonWithDescription;
+import org.chromium.components.browser_ui.widget.RadioButtonWithEditText;
 import org.chromium.components.sync.SyncService;
 import org.chromium.ui.base.DeviceFormFactor;
 
@@ -123,6 +125,8 @@ public class BraveSyncScreensPreference extends BravePreferenceFragment
     private Button mDeleteAccountButton;
     private Button mQRCodeButton;
     private Button mCodeWordsButton;
+    private RadioButtonWithDescription mRadioButtonSyncDefaultServer;
+    private RadioButtonWithEditText mRadioButtonSyncCustomServer;
     // Brave Sync message text view
     private TextView mBraveSyncTextViewInitial;
     private TextView mBraveSyncTextViewSyncChainCode;
@@ -388,6 +392,16 @@ public class BraveSyncScreensPreference extends BravePreferenceFragment
             mConfirmCodeWordsButton.setOnClickListener(this);
         }
 
+        mRadioButtonSyncDefaultServer = getView().findViewById(R.id.radio_button_sync_default_server);
+        if (mRadioButtonSyncDefaultServer != null) {
+            mRadioButtonSyncDefaultServer.setOnClickListener(this);
+        }
+
+        mRadioButtonSyncCustomServer = getView().findViewById(R.id.radio_button_sync_custom_server);
+        if (mRadioButtonSyncCustomServer != null) {
+            mRadioButtonSyncCustomServer.setOnClickListener(this);
+        }
+
         mMobileButton = getView().findViewById(R.id.brave_sync_btn_mobile);
         if (mMobileButton != null) {
             mMobileButton.setOnClickListener(this);
@@ -504,6 +518,9 @@ public class BraveSyncScreensPreference extends BravePreferenceFragment
             if (null != mCodeWords) {
                 mCodeWords.setText("");
             }
+            if (null != mRadioButtonSyncCustomServer) {
+                mRadioButtonSyncCustomServer.setPrimaryText("");
+            }
             return;
         }
         setSyncDoneLayout();
@@ -564,6 +581,7 @@ public class BraveSyncScreensPreference extends BravePreferenceFragment
                 || (v != mScanChainCodeButton && v != mStartNewChainButton
                         && v != mEnterCodeWordsButton && v != mDoneButton && v != mDoneLaptopButton
                         && v != mUseCameraButton && v != mConfirmCodeWordsButton
+                        && v != mRadioButtonSyncDefaultServer && v != mRadioButtonSyncCustomServer
                         && v != mMobileButton && v != mLaptopButton && v != mPasteButton
                         && v != mCopyButton && v != mShowCategoriesButton && v != mAddDeviceButton
                         && v != mDeleteAccountButton && v != mQRCodeButton && v != mCodeWordsButton
@@ -618,6 +636,12 @@ public class BraveSyncScreensPreference extends BravePreferenceFragment
                         .show();
             }
         } else if (mConfirmCodeWordsButton == v) {
+            // TODOSYNC: Save customUrl and preference
+            String customUrl = mRadioButtonSyncCustomServer.getPrimaryText()
+                                     .toString()
+                                     .trim();
+            getBraveSyncWorker().SaveCustomServer(customUrl);
+            Log.e(TAG, customUrl);
             String[] words = mCodeWords.getText()
                                      .toString()
                                      .trim()
@@ -643,6 +667,18 @@ public class BraveSyncScreensPreference extends BravePreferenceFragment
                 mCodephrase = codephraseCandidate;
                 seedWordsReceived(mCodephrase, SyncInputType.JOIN);
             }, () -> {});
+        } else if (mRadioButtonSyncDefaultServer == v) {
+            // TODOSYNC
+            Log.e(TAG, "mRadioButtonSyncDefaultServer");
+            mRadioButtonSyncDefaultServer.setChecked(true);
+            mRadioButtonSyncCustomServer.setChecked(false);
+            mRadioButtonSyncCustomServer.setPrimaryText("");
+        } else if (mRadioButtonSyncCustomServer == v) {
+            // TODOSYNC
+            Log.e(TAG, "mRadioButtonSyncCustomServer");
+            mRadioButtonSyncDefaultServer.setChecked(false);
+            mRadioButtonSyncCustomServer.setChecked(true);
+            // mRadioButtonSyncCustomServer.setPrimaryText("Test");
         } else if (mEnterCodeWordsButton == v) {
             getActivity().getWindow().setSoftInputMode(
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);

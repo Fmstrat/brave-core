@@ -142,6 +142,10 @@ public class BraveSyncWorker {
         BraveSyncWorkerJni.get().saveCodeWords(mNativeBraveSyncWorker, codephrase);
     }
 
+    public void SaveCustomServer(String custom_server) {
+        BraveSyncWorkerJni.get().saveCustomServer(mNativeBraveSyncWorker, custom_server);
+    }
+
     public String GetSeedHexFromWords(String codephrase) {
         return BraveSyncWorkerJni.get().getSeedHexFromWords(codephrase);
     }
@@ -246,6 +250,7 @@ public class BraveSyncWorker {
         String getTimeLimitedWordsFromPure(String pureWords);
 
         void saveCodeWords(long nativeBraveSyncWorker, String passphrase);
+        void saveCustomServer(long nativeBraveSyncWorker, String custom_server);
 
         void finalizeSyncSetup(long nativeBraveSyncWorker);
 

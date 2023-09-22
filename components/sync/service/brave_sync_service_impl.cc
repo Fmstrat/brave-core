@@ -110,6 +110,21 @@ bool BraveSyncServiceImpl::SetSyncCode(const std::string& sync_code) {
   return true;
 }
 
+std::string BraveSyncServiceImpl::GetSyncCustomServer() {
+  std::string custom_server = brave_sync_prefs_.GetCustomServer();
+  return custom_server;
+}
+
+bool BraveSyncServiceImpl::SetSyncCustomServer(const std::string& custom_server) {
+  std::string custom_server_trimmed;
+  base::TrimString(custom_server, " \n\t", &custom_server_trimmed);
+  // TODOSYNC: Validate it's a URL
+  if (!brave_sync_prefs_.SetCustomServer(custom_server_trimmed)) {
+    return false;
+  }
+  return true;
+}
+
 void BraveSyncServiceImpl::OnSelfDeviceInfoDeleted(base::OnceClosure cb) {
   initiated_self_device_info_deleted_ = true;
   // This function will follow normal reset process and set SyncRequested to
@@ -146,6 +161,7 @@ void BraveSyncServiceImpl::OnBraveSyncPrefsChanged(const std::string& path) {
     DCHECK(!failed_to_decrypt);
 
     if (!seed.empty()) {
+      // TODOSYNC: Pass custom server?
       GetBraveSyncAuthManager()->DeriveSigningKeys(seed);
       // Default enabled types: Bookmarks
       syncer::UserSelectableTypeSet selected_types;

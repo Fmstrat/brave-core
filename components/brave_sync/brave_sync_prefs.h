@@ -37,6 +37,9 @@ class Prefs {
   std::string GetSeed(bool* failed_to_decrypt) const;
   bool SetSeed(const std::string& seed);
 
+  std::string GetCustomServer() const;
+  bool SetCustomServer(const std::string& custom_server);
+
   bool IsSyncV1Migrated() const;
   void SetSyncV1Migrated(bool is_migrated);
 

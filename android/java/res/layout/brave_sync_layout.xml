@@ -209,6 +209,29 @@
             android:paddingTop="2dip"
             android:paddingEnd="2dip" >
 
+            <org.chromium.components.browser_ui.widget.RadioButtonWithDescriptionLayout
+                android:id="@+id/radio_button_sync_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true">
+
+                <org.chromium.components.browser_ui.widget.RadioButtonWithDescription
+                    android:id="@+id/radio_button_sync_default_server"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:primaryText="@string/brave_sync_default_server_text" />
+
+                <org.chromium.components.browser_ui.widget.RadioButtonWithEditText
+                    android:id="@+id/radio_button_sync_custom_server"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/brave_sync_custom_server_text"
+                    android:inputType="textUri" />
+
+            </org.chromium.components.browser_ui.widget.RadioButtonWithDescriptionLayout>
+
+            <include layout="@layout/menu_separator"/>
+
             <EditText android:id="@+id/code_words"
                 android:layout_width="match_parent"
                 android:layout_height="0px"
